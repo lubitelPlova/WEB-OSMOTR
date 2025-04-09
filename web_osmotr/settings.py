@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-08lak!n+y_(_siitsij)r$hkgb=^e%nj7+b1&^^ksh&dlgeo=$'
+# SECRET_KEY = 'django-insecure-08lak!n+y_(_siitsij)r$hkgb=^e%nj7+b1&^^ksh&dlgeo=$'
 
 env = environ.Env(
 DEBUG=(bool, False)
@@ -33,7 +33,7 @@ SECRET_KEY = env('SECRET_KEY')
 DATABASES = {
 'default': env.db(),
 }
-6
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'web_osmotr.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
+# nado zakomentit`
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
