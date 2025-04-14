@@ -8,42 +8,114 @@
 from django.db import models
 
 
-class Doctors(models.Model):
-    doctor_id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=256)
-    first_name = models.CharField(max_length=256)
-    last_name = models.CharField(max_length=256)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+class Clinic(models.Model):
+    clinicid = models.IntegerField(db_column='ClinicID', primary_key=True)  # Field name made lowercase.
+    clinicname = models.CharField(db_column='ClinicName', max_length=100)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'doctors'
+        db_table = 'Clinic'
 
 
-class Drivers(models.Model):
-    driver_id = models.AutoField(primary_key=True)
-    email = models.CharField(max_length=256)
-    first_name = models.CharField(max_length=256)
-    last_name = models.CharField(max_length=256)
-    phone_number = models.CharField(max_length=20, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+class Clinicadmin(models.Model):
+    adminid = models.IntegerField(db_column='AdminID', primary_key=True)  # Field name made lowercase.
+    clinicid = models.ForeignKey(Clinic, models.DO_NOTHING, db_column='ClinicID', blank=True, null=True)  # Field name made lowercase.
+    adminname = models.CharField(db_column='AdminName', max_length=255)  # Field name made lowercase.
+    admininfo = models.TextField(db_column='AdminInfo', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'drivers'
+        db_table = 'ClinicAdmin'
 
 
-class Examinations(models.Model):
-    examination_id = models.AutoField(primary_key=True)
-    driver = models.ForeignKey(Drivers, models.DO_NOTHING, blank=True, null=True)
-    doctor = models.ForeignKey(Doctors, models.DO_NOTHING, blank=True, null=True)
-    status = models.PositiveIntegerField()
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
+class Devicemeasurements(models.Model):
+    measurementid = models.IntegerField(db_column='MeasurementID', primary_key=True)  # Field name made lowercase.
+    datetime = models.DateTimeField(db_column='DateTime')  # Field name made lowercase.
+    examinationid = models.ForeignKey('Medicalexamination', models.DO_NOTHING, db_column='ExaminationID', blank=True, null=True)  # Field name made lowercase.
+    devicetype = models.CharField(db_column='DeviceType', max_length=100, blank=True, null=True)  # Field name made lowercase.
+    data = models.TextField(db_column='Data', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = False
-        db_table = 'examinations'
+        db_table = 'DeviceMeasurements'
+
+
+class Doctor(models.Model):
+    doctorid = models.IntegerField(db_column='DoctorID', primary_key=True)  # Field name made lowercase.
+    doctorinfo = models.TextField(db_column='DoctorInfo', blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255)  # Field name made lowercase.
+    clinicid = models.ForeignKey(Clinic, models.DO_NOTHING, db_column='ClinicID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Doctor'
+
+
+class Image(models.Model):
+    imageid = models.IntegerField(db_column='ImageID', primary_key=True)  # Field name made lowercase.
+    examinationid = models.ForeignKey('Medicalexamination', models.DO_NOTHING, db_column='ExaminationID', blank=True, null=True)  # Field name made lowercase.
+    datetime = models.DateTimeField(db_column='DateTime')  # Field name made lowercase.
+    imagedata = models.TextField(db_column='ImageData', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Image'
+
+
+class Job(models.Model):
+    jobid = models.IntegerField(db_column='JobID', primary_key=True)  # Field name made lowercase.
+    jobname = models.CharField(db_column='JobName', unique=True, max_length=100)  # Field name made lowercase.
+    jobtype = models.CharField(db_column='JobType', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    workhours = models.IntegerField(db_column='WorkHours', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Job'
+
+
+class Location(models.Model):
+    locationid = models.IntegerField(db_column='LocationID', primary_key=True)  # Field name made lowercase.
+    locationname = models.CharField(db_column='LocationName', max_length=100)  # Field name made lowercase.
+    locationcity = models.CharField(db_column='LocationCity', max_length=100)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Location'
+
+
+class Medicalexamination(models.Model):
+    examinationid = models.IntegerField(db_column='ExaminationID', primary_key=True)  # Field name made lowercase.
+    patientid = models.ForeignKey('Patient', models.DO_NOTHING, db_column='PatientID', blank=True, null=True)  # Field name made lowercase.
+    doctorid = models.ForeignKey(Doctor, models.DO_NOTHING, db_column='DoctorID', blank=True, null=True)  # Field name made lowercase.
+    terminalid = models.ForeignKey('Terminal', models.DO_NOTHING, db_column='TerminalID', blank=True, null=True)  # Field name made lowercase.
+    result = models.TextField(db_column='Result', blank=True, null=True)  # Field name made lowercase.
+    datetime = models.DateTimeField(db_column='DateTime')  # Field name made lowercase.
+    duration = models.IntegerField(db_column='Duration', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'MedicalExamination'
+
+
+class Patient(models.Model):
+    patientid = models.IntegerField(db_column='PatientID', primary_key=True)  # Field name made lowercase.
+    name = models.CharField(db_column='Name', max_length=255)  # Field name made lowercase.
+    medicalinfo = models.TextField(db_column='MedicalInfo', blank=True, null=True)  # Field name made lowercase.
+    jobid = models.ForeignKey(Job, models.DO_NOTHING, db_column='JobID', blank=True, null=True)  # Field name made lowercase.
+    clientorganizationid = models.IntegerField(db_column='ClientOrganizationID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Patient'
+
+
+class Terminal(models.Model):
+    terminalid = models.IntegerField(db_column='TerminalID', primary_key=True)  # Field name made lowercase.
+    locationid = models.ForeignKey(Location, models.DO_NOTHING, db_column='LocationID', blank=True, null=True)  # Field name made lowercase.
+    status = models.CharField(db_column='Status', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    serviceinfo = models.TextField(db_column='ServiceInfo', blank=True, null=True)  # Field name made lowercase.
+    clinicid = models.IntegerField(db_column='ClinicID', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Terminal'
