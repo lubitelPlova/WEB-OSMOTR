@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Доктора</title>
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+<body>
+<h1>Список всех докторов:</h1>
+<table>
+<tr>
+<th>Номер доктора</th>
+<th>Имя</th>
+<th>Информация о враче</th>
+<th>ID клиники</th>
+</tr>
+{% for doctor in list_of_all_doctors %}
+<tr>
+<td>{{ patient.doctorid }}</td>
+<td>{{ patient.name }}</td>
+<td>{{ patient.doctorinfo }}</td>
+<td>{{ patient.clinicid }}</td>
+</tr>
+{% endfor %}
+</table>
+</body>
+</html>
