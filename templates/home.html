@@ -8,6 +8,12 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
 </head>
 <body>
+{% if user.is_authenticated %}
+<h1>Привет, {{ user.username }} ! Это мой магазин!</h1>
+{% else %}
+<p>Вы не вошли на сайт</p>
+<a href="{% url 'login' %}">Войти</a>
+{% endif %}
 <div class="container">
     <h1>Осмотр</h1>
     <p>Система для предрейсовых и послерейсовых дистанционных медицинских осмотров.</p>
