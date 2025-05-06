@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Детальный осмотр</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<h1>Осмотр №{{ examination.examination_id }}</h1>
+<table class="order-info">
+    <tr>
+        <th>Номер осмотра:</th>
+        <td>{{ examination.examination_id  }}</td>
+    </tr>
+    <tr>
+        <th>Дата заказа:</th>
+        <td>{{ examination.datetime }}</td>
+    </tr>
+    <tr>
+        <th>Пациент:</th>
+        <td>{{ examination.patient_id }}</td>
+    </tr>
+    <tr>
+        <th>Врач:</th>
+        <td>{{ examination.doctor_id }}</td>
+    </tr>
+    <tr>
+        <th>Терминал:</th>
+        <td>{{ examination.terminal_id }}</td>
+    </tr>
+    <tr>
+        <th>Продолжительность</th>
+        <td>{{ examination.duration }}</td>
+    </tr>
+    <tr>
+        <th>Результат:</th>
+        <td>{{ examination.result }}</td>
+    </tr>
+</table>
+</body>
+</html>

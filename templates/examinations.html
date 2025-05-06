@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Осмотры</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<form action="{% url 'search' %}" method="GET">
+    {% csrf_token %}
+    <input name="q" type="text" placeholder="Введите имя или фамилию пациента...">
+</form>
+<h1>Список всех осмотров:</h1>
+<table>
+    <tr>
+        <th>Номер осмотра</th>
+        <th>Пациент</th>
+        <th>Врач</th>
+        <th>Терминал</th>
+        <th>Результат</th>
+        <th>Датавремя</th>
+        <th>Продолжительность</th>
+    </tr>
+    {% for examination in list_of_all_examinations %}
+    <tr>
+        <td>
+            <a href="{% url 'examination_detail' examination.examination_id %}">{{ examination.examination_id }}</a>
+        </td>
+        <td>{{ examination.patient_id }}</td>
+        <td>{{ examination.doctor_id }}</td>
+        <td>{{ examination.terminal_id }}</td>
+        <td>{{ examination.result }}</td>
+        <td>{{ examination.datetime }}</td>
+        <td>{{ examination.duration }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

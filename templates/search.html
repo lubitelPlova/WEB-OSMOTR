@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск осмотров</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+</head>
+<body>
+<h1>Список осмотров для:</h1>
+<h2>{{ list_of_all_examinations.0.patient_id }}</h2>
+<table>
+    <tr>
+        <th>Номер осмотра</th>
+        <th>Дата осмотра</th>
+    </tr>
+    6
+    {% for examination in list_of_all_examinations %}
+    <tr>
+        <td>
+            <a href="{% url 'examination_detail' examination.examination_id %}">{{ examination.examination_id }}</a>
+        </td>
+        <td>{{ examination.datetime }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
